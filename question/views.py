@@ -1,8 +1,10 @@
 #coding: utf8
 from django.shortcuts import render
+from .models import Question
 
 def question(request):
-    text = 'Quanto é 2^5?'
+    question = Question.objects.filter(is_active=True)[0]
+    text = question.question_text
 
     # BUG: as respostas estão ficando fora de ordem
     answers = {
