@@ -1,7 +1,6 @@
 #coding: utf8
 from django.shortcuts import render
 
-
 def question(request):
     text = 'Quanto é 2^5?'
 
@@ -14,9 +13,11 @@ def question(request):
         'e': '128',
     }
 
+    sorted_answers = dict(sorted(answers.items(), key=lambda item: item[0]))
+
     context = {
         'question_text': text,
-        'answers': answers,
+        'answers': sorted_answers,
     }
 
     return render(request, 'question/question.html', context=context)
