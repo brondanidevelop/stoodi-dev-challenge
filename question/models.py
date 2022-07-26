@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Log_Question(models.Model):
     id = models.AutoField(primary_key=True)
     create_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
@@ -23,16 +22,16 @@ class Question(Log_Question):
 
 
 LETTERS_CHOICES = [
-    ('0', 'a'),
-    ('1', 'b'),
-    ('2', 'c'),
-    ('3', 'd'),
-    ('4', 'e'),
-    ('5', 'f'),
-    ('6', 'g'),
-    ('7', 'h'),
-    ('8', 'i'),
-    ('9', 'j'),
+    ('a', 'a'),
+    ('b', 'b'),
+    ('c', 'c'),
+    ('d', 'd'),
+    ('e', 'e'),
+    ('f', 'f'),
+    ('g', 'g'),
+    ('h', 'h'),
+    ('i', 'i'),
+    ('j', 'j'),
 ]
 
 class Answer(models.Model):
@@ -49,8 +48,16 @@ class Answer(models.Model):
     def __str__(self):
         return self.answer_text
 
+    def save(self, *args, **kwargs):
+        answers = Answer.objects.filter(is_correct_answer=True, question=self.question.id)
+
+        if answers.exists():
+            self.is_correct_answer = False
+
+        super(Answer, self).save(*args, **kwargs)
+        
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['question', 'is_correct_answer'], name='unique_correct_answer'),
-            models.UniqueConstraint(fields=['question', 'answer_text'], name='unique_answer_iqual')
+            models.UniqueConstraint(fields=['question', 'answer_text'], name='unique_answer_iqual'),
+            models.UniqueConstraint(fields=['question', 'order'], name='unique_answer_order')
         ]
