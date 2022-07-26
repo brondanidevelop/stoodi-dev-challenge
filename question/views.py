@@ -1,25 +1,16 @@
 #coding: utf8
 from django.shortcuts import render
-from .models import Question
+from .models import Question, Answer
 
 def question(request):
     question = Question.objects.filter(is_active=True)[0]
     text = question.question_text
 
-    # BUG: as respostas estão ficando fora de ordem
-    answers = {
-        'a': '0',
-        'b': '2',
-        'c': '16',
-        'd': '32',
-        'e': '128',
-    }
-
-    sorted_answers = dict(sorted(answers.items(), key=lambda item: item[0]))
+    answers = Answer.objects.filter(question=question, is_active=True).only('answer_text', 'order').order_by('order')
 
     context = {
         'question_text': text,
-        'answers': sorted_answers,
+        'answers': answers,
     }
 
     return render(request, 'question/question.html', context=context)
