@@ -16,8 +16,11 @@ def question(request):
     return render(request, 'question/question.html', context=context)
 
 def question_answer(request):
+    question = request.POST.get('question', None)
     answer = request.POST.get('answer', 'z')
-    is_correct = answer == 'd'
+
+    is_correct = Answer.objects.filter(
+        question=question, order__exact=answer, is_active=True, is_correct_answer=True).exists()
 
     context = {
         'is_correct': is_correct,
