@@ -7,13 +7,15 @@
     <body>
     {% if is_correct %}
         Resposta correta!
+        <br/>
+        <br/>
+        <a href="/?next={{ next }}">próxima questão</a>
     {% else %}
         Resposta errada!
+        <br/>
+        <br/>
+        <a href="/?next={{ next }}">Tente novamente</a>
     {% endif %}
-
-    <br/>
-    <br/>
-    <a href="{% url 'question' %}">Tente novamente</a>
 
     </body>
 </html>
