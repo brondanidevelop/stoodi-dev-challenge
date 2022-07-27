@@ -3,10 +3,13 @@
         <p>Olá {{ user.username|default:"Anônimo" }}!</p>
 
         {% if user.is_authenticated %}
-
-            <p><a href="{% url 'logout' %}">Sair</a></p>
+            <a href="{% url 'logout' %}">Sair</a>
         {% else %}
-            <a href="{% url 'login' %}">Cadastrar</a>
+            {% if request.path == '/cadastro/' %}
+                <a href="{% url 'question' %}">Página Principal</a>
+            {% else %}
+                <a href="{% url 'cadastro' %}">Cadastrar</a>
+            {% endif %}
             <a href="{% url 'login' %}">Entrar</a>
         {% endif %}
     </div>
