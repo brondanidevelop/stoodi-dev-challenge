@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 class Log_Question(models.Model):
     id = models.AutoField(primary_key=True)
@@ -12,10 +13,16 @@ class Log_Question(models.Model):
     def __str__(self):
         return str(self.id)
 
+def validate_order(value):
+    if value <= 0:
+        raise ValidationError(
+            '%(value)s is not an valid number',
+            params={'value': value},
+        )
 
 class Question(Log_Question):
     question_text = models.CharField(max_length=200, unique=True, null=False, blank=False)
-    order = models.IntegerField(default=0)
+    order = models.PositiveIntegerField(default=1, unique=True, validators=[validate_order])
     
     def __str__(self):
         return self.question_text
