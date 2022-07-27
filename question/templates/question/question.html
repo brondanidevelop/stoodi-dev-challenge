@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Questão {{ question.order }}</title>
-    </head>
+{% extends 'question/base_stoodi.html' %}
 
-    <body>
+{% block title %}
+    <title>Questão {{ question.order }}</title>
+{% endblock %}
+
+{% block header %}
+   {% include 'question/header.html' %}
+{% endblock %}
+
+{% block content %}
+     <div class="question">
         <form action="{% url 'question_answer' %}" method="POST">
             {% csrf_token %}
             <p><h2>{{ question.order }}) {{ question.question_text }}</h2></p>
@@ -18,5 +23,5 @@
             <br/>
             <input type="submit" value="Ok" />
         </form>
-    </body>
-</html>
+    </div>
+{% endblock %}

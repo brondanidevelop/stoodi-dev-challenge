@@ -1,21 +1,31 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Resposta</title>
-    </head>
+{% extends 'question/base_stoodi.html' %}
 
-    <body>
-    {% if is_correct %}
-        Resposta correta!
-        <br/>
-        <br/>
-        <a href="/?next={{ next }}">próxima questão</a>
-    {% else %}
-        Resposta errada!
-        <br/>
-        <br/>
-        <a href="/?next={{ next }}">Tente novamente</a>
-    {% endif %}
+{% block title %}
+    <title>Resposta</title>
+{% endblock %}
 
-    </body>
-</html>
+{% block header %}
+   {% include 'question/header.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="answer">
+        {% if is_correct %}
+            <h2>Resposta correta!</h2>
+        {% else %}
+            <h2 style="color:red">Resposta errada!</h2>
+        {% endif %}
+            <br/>
+            <br/>
+        <p>
+            <a href="/?next={{ next }}">
+                {% if is_correct %}
+                    próxima questão
+                {% else %}
+                    Tente novamente
+                {% endif %}
+            </a>
+        </p>
+
+    </div>
+{% endblock %}
