@@ -1,6 +1,6 @@
 #coding: utf8
 from django.shortcuts import render
-from .models import Question, Answer
+from .models import Question, Answer, History
 
 def get_answer(question_pk):
     queryset = Answer.objects.filter(
@@ -66,6 +66,13 @@ def next_question(question_order):
 
     return 1
 
+def register_history(question_ref, answer_selected, is_correct):
+    history = History()
+    history.question = Question.objects.get(id=question_ref)
+    history.answer_selected = answer_selected
+    history.is_correct = is_correct
+    history.save()
+
 def question_answer(request):
     question_order = request.POST.get('question_order', None)
     question_ref = request.POST.get('question_ref', None)
@@ -73,6 +80,8 @@ def question_answer(request):
 
     is_correct = check_question(question_order, answer_selected)
     question = next_question(int(question_order)) if is_correct else question_order
+
+    register_history(question_ref, answer_selected, is_correct)
 
     context = {
         'is_correct': is_correct,
