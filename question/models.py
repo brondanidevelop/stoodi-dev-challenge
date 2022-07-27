@@ -74,3 +74,5 @@ class History(models.Model):
     answer_selected = models.CharField(max_length=1)
     is_correct = models.BooleanField(default=False)
     answered_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    user =  models.ForeignKey(User, related_name='History_user_create', on_delete=models.CASCADE, editable=False, default=None, null=True, blank=True)
+
