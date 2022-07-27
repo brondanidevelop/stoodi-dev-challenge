@@ -1,0 +1,31 @@
+<!-- templates/registration/login.html -->
+{% extends 'question/base_stoodi.html' %}
+
+{% block title %}
+<title>Autenticação</title>
+{% endblock %}
+
+{% block content %}
+    <div class="login">
+        <form method="post" action="{% url 'login' %}">
+            <fieldset>
+            <legend>Painel de Autenticação:</legend>
+                {% csrf_token %}
+
+                <label for="form-username">Usuário:</label><br>
+                <input type="text"
+                       id="form-username"
+                       name="username"
+                       placeholder="Usuário..." autofocus><br>
+
+                <label for="form-password">Senha:</label><br>
+                <input  type="password"
+                        id="form-password"
+                        name="password"
+                        placeholder="Senha..."><br><br>
+
+            <button type="submit">Acessar!</button>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
