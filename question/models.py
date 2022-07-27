@@ -68,3 +68,9 @@ class Answer(models.Model):
             models.UniqueConstraint(fields=['question', 'answer_text'], name='unique_answer_iqual'),
             models.UniqueConstraint(fields=['question', 'order'], name='unique_answer_order')
         ]
+
+class History(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer_selected = models.CharField(max_length=1)
+    is_correct = models.BooleanField(default=False)
+    answered_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
