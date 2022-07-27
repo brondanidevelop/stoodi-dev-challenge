@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question, Answer
+from .models import Question, Answer, History
 # Register your models here.
 
 
@@ -28,5 +28,12 @@ class AnswerAdmin(admin.ModelAdmin):
             obj.user_create = request.user
         super().save_model(request, obj, form, change)
 
+class historyAdmin(admin.ModelAdmin):
+    list_display = ('question', 'answer_selected','is_correct','answered_at')
+    ordering = ['answered_at']
+    list_filter = ['question__order', 'is_correct']
+    readonly_fields = ('question', 'answer_selected','is_correct','answered_at')
+
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
+admin.site.register(History, historyAdmin)
