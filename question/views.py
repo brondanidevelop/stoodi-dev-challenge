@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def get_answer(question_pk):
+    """ Retorna todas as respostas de uma questão"""
     queryset = Answer.objects.filter(
         is_active=True, question=question_pk
     ).only('id', 'answer_text', 'order').order_by('order')
@@ -12,6 +13,7 @@ def get_answer(question_pk):
     return queryset
 
 def get_question(next=1):
+    """ Retorna uma questão especifica pela order definida"""
     queryset = Question.objects.filter(
         is_active=True,
         order=next
@@ -20,6 +22,7 @@ def get_question(next=1):
     return queryset[0]
 
 def question(request):
+    """ Retorna para o html a questão"""
     next = int(request.GET.get('next', 1))
     question = get_question(next)
     answer = get_answer(question.id)
@@ -36,6 +39,7 @@ def question(request):
     return render(request, 'question/question.html', context=context)
 
 def question_answer(request):
+    """ Corrige a questão"""
     question = request.POST.get('question', None)
     answer = request.POST.get('answer', 'z')
 
@@ -49,6 +53,7 @@ def question_answer(request):
     return render(request, 'question/answer.html', context=context)
 
 def check_question(question_order, answer_selected):
+    """ Valida se existe uma resposta de acordo com a questão e a opção selecionada"""
     answer = Answer.objects.filter(
         question__order=question_order,
         order__exact=answer_selected,
@@ -58,6 +63,7 @@ def check_question(question_order, answer_selected):
     return answer
 
 def next_question(question_order):
+    """Retorna a próxima questão"""
     queryset = Question.objects.filter(
         is_active=True,
         order__gt=question_order
@@ -69,6 +75,7 @@ def next_question(question_order):
     return 1
 
 def register_history(user, question_ref, answer_selected, is_correct):
+    """Registra quem respondeu a questão, bem como o usuário a se está correta"""
     history = History()
     history.question = Question.objects.get(id=question_ref)
     history.answer_selected = answer_selected
@@ -77,6 +84,7 @@ def register_history(user, question_ref, answer_selected, is_correct):
     history.save()
 
 def question_answer(request):
+    """ Corrige a questão"""
     question_order = request.POST.get('question_order', None)
     question_ref = request.POST.get('question_ref', None)
     answer_selected = request.POST.get('answer', 'z')
@@ -95,6 +103,7 @@ def question_answer(request):
 
 @login_required
 def log_questoes(request):
+    """ Retorna o histórico de respostas do usuário logado"""
     history = History.objects.filter(user=request.user).order_by('-answered_at')
 
     context = {
