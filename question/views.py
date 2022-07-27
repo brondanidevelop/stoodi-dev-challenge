@@ -38,19 +38,6 @@ def question(request):
 
     return render(request, 'question/question.html', context=context)
 
-def question_answer(request):
-    """ Corrige a questão"""
-    question = request.POST.get('question', None)
-    answer = request.POST.get('answer', 'z')
-
-    is_correct = Answer.objects.filter(
-        question=question, order__exact=answer, is_active=True, is_correct_answer=True).exists()
-
-    context = {
-        'is_correct': is_correct,
-    }
-
-    return render(request, 'question/answer.html', context=context)
 
 def check_question(question_order, answer_selected):
     """ Valida se existe uma resposta de acordo com a questão e a opção selecionada"""
