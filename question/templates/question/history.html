@@ -1,0 +1,46 @@
+{% extends 'question/base_stoodi.html' %}
+
+{% block title %}
+    <title>Histórico do {{ user.username }}</title>
+{% endblock %}
+
+{% block header %}
+   {% include 'question/header.html' %}
+{% endblock %}
+
+{% block content %}
+     <div class="history">
+
+        <div>
+            <h2>Histórico das Questões Respondidas: {{ user.username }}</h2>
+        </div>
+        <div>
+
+        <table>
+            <thead>
+              <tr>
+                <th>question</th>
+                <th>answer_selected</th>
+                <th>is_correct</th>
+                <th width="70px">user</th>
+                <th>answered_at</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for hist in history %}
+                    <tr>
+                        <td>{{ hist.question }}</td>
+                        <td>{{ hist.answer_selected|upper }}</td>
+                        <td>{{ hist.is_correct|yesno:"Sim,Não" }}</td>
+                        <td>{{ hist.user }}</td>
+                        <td>{{ hist.answered_at|date:"d/m/Y - H:i:s" }}</td>
+                    </tr>
+
+                {% endfor%}
+
+
+            </tbody>
+        </table>
+        </div>
+    </div>
+{% endblock %}
