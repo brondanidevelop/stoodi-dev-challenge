@@ -66,11 +66,12 @@ def next_question(question_order):
 
     return 1
 
-def register_history(question_ref, answer_selected, is_correct):
+def register_history(user, question_ref, answer_selected, is_correct):
     history = History()
     history.question = Question.objects.get(id=question_ref)
     history.answer_selected = answer_selected
     history.is_correct = is_correct
+    history.user = user if user.is_authenticated else None
     history.save()
 
 def question_answer(request):
@@ -81,7 +82,7 @@ def question_answer(request):
     is_correct = check_question(question_order, answer_selected)
     question = next_question(int(question_order)) if is_correct else question_order
 
-    register_history(question_ref, answer_selected, is_correct)
+    register_history(request.user,question_ref, answer_selected, is_correct)
 
     context = {
         'is_correct': is_correct,
