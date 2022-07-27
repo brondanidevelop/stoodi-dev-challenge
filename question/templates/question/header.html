@@ -3,6 +3,12 @@
         <p>Olá {{ user.username|default:"Anônimo" }}!</p>
 
         {% if user.is_authenticated %}
+
+            {% if request.path == '/log-questoes/' %}
+                <a href="{% url 'question' %}">Página Principal</a>
+            {% else%}
+                <a href="{% url 'log_questoes' %}">Histórico</a>
+            {% endif%}
             <a href="{% url 'logout' %}">Sair</a>
         {% else %}
             {% if request.path == '/cadastro/' %}
