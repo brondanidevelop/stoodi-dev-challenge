@@ -29,7 +29,7 @@ class AnswerAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 class historyAdmin(admin.ModelAdmin):
-    list_display = ('question', 'answer_selected','is_correct','answered_at')
+    list_display = ('question', 'answer_selected','is_correct','user', 'answered_at')
     ordering = ['answered_at']
     list_filter = ['question__order', 'is_correct']
     readonly_fields = ('question', 'answer_selected','is_correct','answered_at')
