@@ -1,0 +1,23 @@
+{% extends 'question/base_stoodi.html' %}
+
+{% block title %}
+    <title>Novo Usuário</title>
+{% endblock %}
+
+{% block header %}
+   {% include 'question/header.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="question">
+        <form method="post">
+            <fieldset>
+                <legend>Novo Usuário:</legend>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Cadastrar</button>
+                <button type="reset">Reset</button>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
