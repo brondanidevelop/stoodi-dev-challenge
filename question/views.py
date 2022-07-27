@@ -2,15 +2,33 @@
 from django.shortcuts import render
 from .models import Question, Answer
 
-def question(request):
-    question = Question.objects.filter(is_active=True)[0]
-    text = question.question_text
+def get_answer(question_pk):
+    queryset = Answer.objects.filter(
+        is_active=True, question=question_pk
+    ).only('id', 'answer_text', 'order').order_by('order')
 
-    answers = Answer.objects.filter(question=question, is_active=True).only('answer_text', 'order').order_by('order')
+    return queryset
+
+def get_question(next=1):
+    queryset = Question.objects.filter(
+        is_active=True,
+        order=next
+    ).only('id', 'question_text', 'order').order_by('order')
+
+    return queryset[0]
+
+def question(request):
+    next = int(request.GET.get('next', 1))
+    question = get_question(next)
+    answer = get_answer(question.id)
+
+    if not answer.count():
+        question = get_question(1)
+        answer = get_answer(question.id)
 
     context = {
-        'question_text': text,
-        'answers': answers,
+        'question': question,
+        'answers': answer,
     }
 
     return render(request, 'question/question.html', context=context)
