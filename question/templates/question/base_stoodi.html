@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block title %} {% endblock %}
+    </head>
+    <style type="text/css">
+        .actions {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            align-items: flex-start;
+            align-content: flex-start;
+        }
+        .question, .login {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+        .answer {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+            align-content: space-between;
+        }
+    </style>
+    <body>
+        {% block header %}
+        {% endblock %}
+        <br>
+        <br>
+        <br>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

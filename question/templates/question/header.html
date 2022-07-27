@@ -1,0 +1,13 @@
+ <div class="actions">
+    <div>
+        <p>Olá {{ user.username|default:"Anônimo" }}!</p>
+
+        {% if user.is_authenticated %}
+
+            <p><a href="{% url 'logout' %}">Sair</a></p>
+        {% else %}
+            <a href="{% url 'login' %}">Cadastrar</a>
+            <a href="{% url 'login' %}">Entrar</a>
+        {% endif %}
+    </div>
+</div>
