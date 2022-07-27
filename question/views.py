@@ -1,6 +1,8 @@
 #coding: utf8
 from django.shortcuts import render
 from .models import Question, Answer, History
+from django.contrib.auth.decorators import login_required
+
 
 def get_answer(question_pk):
     queryset = Answer.objects.filter(
@@ -90,3 +92,13 @@ def question_answer(request):
     }
 
     return render(request, 'question/answer.html', context=context)
+
+@login_required
+def log_questoes(request):
+    history = History.objects.filter(user=request.user).order_by('-answered_at')
+
+    context = {
+        'history': history,
+    }
+
+    return render(request, 'question/history.html', context=context)
